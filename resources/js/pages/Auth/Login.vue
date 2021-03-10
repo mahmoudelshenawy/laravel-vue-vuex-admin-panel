@@ -78,15 +78,14 @@ export default {
   // },
   methods: {
     async login(){
-      try {
-        
+      try {   
         const response = await axios.post('/api/login',{
           email : this.email,
           password : this.password,
         })
+        console.log(response)
         this.email = ""
         this.password =""
-        console.log(response)
        this.$store.dispatch('setToken' , {
          token:response.data.token,
          remember : this.remember

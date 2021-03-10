@@ -79,6 +79,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -94,15 +106,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       email: "",
       password: "",
       password_confirmation: '',
-      error: null
+      error: false,
+      errors: [],
+      errorsArr: [],
+      errorMsg: null
     };
   },
+  //   computed:{
+  // displayErr(name){
+  // let err = this.errorsArr.find((index,err) => index === name)
+  // return err.name
+  // }
+  //   },
   methods: {
     register: function register() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response, result;
+        var response, result, err;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -129,7 +150,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 // clear state
                 _this.name = "";
                 _this.email = "";
-                _this.password = ""; // console.log(response)
+                _this.password = "";
 
                 _this.$store.dispatch('setToken', result.data.token);
 
@@ -139,33 +160,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   name: "Home"
                 });
 
-                _context.next = 19;
+                _context.next = 26;
                 break;
 
               case 15:
                 _context.prev = 15;
                 _context.t0 = _context["catch"](0);
-                _this.error = _context.t0.response.data.errors;
-                console.log(_this.error); //        let errList = '';
-                //         this.error.forEach(el => {
-                //           errList += `<li>${el.msg}</li>`
-                //         });
-                //     this.$notify({
-                //     group: 'auth',
-                //     title: 'Authentication',
-                //     type : 'error',
-                //     text: errList
-                // });
+                _this.error = true;
+                _context.next = 20;
+                return _context.t0.response.data.message;
 
-              case 19:
+              case 20:
+                _this.errorMsg = _context.sent;
+                _context.next = 23;
+                return _context.t0.response.data.errors;
+
+              case 23:
+                _this.errors = _context.sent;
+
+                for (err in _this.errors) {
+                  // console.log(this.errors[err][0])
+                  _this.errorsArr[err] = _this.errors[err][0];
+                } // console.log(this.errorsArr)
+
+
+                console.log(_context.t0.response.data.errors.name[0]); // console.log(error.response)
+
+              case 26:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee, null, [[0, 15]]);
       }))();
-    } // after register get User
-
+    },
+    // after register get User
+    displayErr: function displayErr(name, errs) {
+      var err = errs.find(function (index, err) {
+        return err;
+      }); // console.log('test' , err , name)
+    }
   }
 });
 
@@ -207,6 +241,17 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
+                  _vm.error
+                    ? _c(
+                        "v-alert",
+                        {
+                          staticClass: "mt-2",
+                          attrs: { dense: "", outlined: "", type: "error" }
+                        },
+                        [_vm._v("\n " + _vm._s(_vm.errorMsg) + "\n")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c(
                     "form",
                     {
@@ -241,7 +286,15 @@ var render = function() {
                               },
                               expression: "name"
                             }
-                          })
+                          }),
+                          _vm._v(" "),
+                          _vm.error
+                            ? _c("span", { staticClass: "text-danger" }, [
+                                _vm._v(
+                                  _vm._s(_vm.displayErr("name", _vm.errorsArr))
+                                )
+                              ])
+                            : _vm._e()
                         ],
                         1
                       ),

@@ -36,9 +36,9 @@ let routes = [
     component:() => import('../pages/Auth/Register.vue'),
   },
   {
-  path:'/test',
-  name:"test-auth",
-  component:() => import('../pages/Auth/Test.vue'),
+  path:'/products',
+  name:"products.index",
+  component:() => import('../pages/Products.vue'),
   meta: {
     requiresAuth: true,
     layout:'main'

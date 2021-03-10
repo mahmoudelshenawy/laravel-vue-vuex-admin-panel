@@ -116,9 +116,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 response = _context.sent;
+                console.log(response);
                 _this.email = "";
                 _this.password = "";
-                console.log(response);
 
                 _this.$store.dispatch('setToken', {
                   token: response.data.token,

@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import Navbar from "../components/layouts/Navbar.vue";
-import Drawer from "../components/layouts/Drawer.vue";
+import Navbar from "../components/Navbar.vue";
+import Drawer from "../components/Drawer.vue";
 export default {
     components:{
         Navbar,

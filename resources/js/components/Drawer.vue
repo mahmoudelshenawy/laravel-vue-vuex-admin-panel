@@ -80,9 +80,9 @@ export default {
                     children: []
                 },
                 {
-                    title: "Users",
-                    link: "/users",
-                    icon: "fa-users",
+                    title: "Products",
+                    link: "/products",
+                    icon: "fas fa-sitemap",
                     children: []
                 },
                 {

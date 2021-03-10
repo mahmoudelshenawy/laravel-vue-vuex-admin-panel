@@ -6,6 +6,17 @@
         <v-toolbar color="primary" dark>
           <v-toolbar-title>Register</v-toolbar-title>
         </v-toolbar>
+        <!-- alert start -->
+        <v-alert
+      dense
+      outlined
+      type="error"
+      v-if="error"
+      class="mt-2"
+    >
+     {{errorMsg}}
+    </v-alert>
+        <!-- alert end -->
          <form @submit.prevent="register" @keydown="form.onKeydown($event)">
          <v-col cols="8" class="mx-auto mb-3 mt-6">
          <v-text-field
@@ -14,6 +25,7 @@
             v-model="name"
             placeholder="name.."
           ></v-text-field>
+          <span class="text-danger" v-if="error">{{displayErr('name',errorsArr)}}</span>
             </v-col>
          <v-col cols="8" class="mx-auto my-3">
          <v-text-field
@@ -72,9 +84,18 @@ export default {
       email : "",
       password : "",
       password_confirmation: '',
-      error:null
+      error:false,
+      errors:[],
+      errorsArr:[],
+      errorMsg:null
     }
   },
+//   computed:{
+// displayErr(name){
+// let err = this.errorsArr.find((index,err) => index === name)
+// return err.name
+// }
+//   },
   methods: {
     async register(){
       try {
@@ -94,28 +115,28 @@ export default {
         this.name = ""
         this.email = ""
         this.password =""
-        // console.log(response)
        this.$store.dispatch('setToken' , result.data.token)
        this.$store.dispatch('updateUser' , result.data)
         this.$router.push({name:"Home"});
         
       } catch (error){
-      this.error = error.response.data.errors
-      console.log(this.error)
-//        let errList = '';
-//         this.error.forEach(el => {
-//           errList += `<li>${el.msg}</li>`
-//         });
-//     this.$notify({
-//     group: 'auth',
-//     title: 'Authentication',
-//     type : 'error',
-//     text: errList
-// });
+      this.error = true;
+      this.errorMsg = await error.response.data.message;
+      this.errors = await error.response.data.errors;
+      for(let err in this.errors){
+        // console.log(this.errors[err][0])
+        this.errorsArr[err] = this.errors[err][0]
       }
-    }
+      // console.log(this.errorsArr)
+      console.log(error.response.data.errors.name[0])
+      // console.log(error.response)
+      }
+    },
     // after register get User
-    
+  displayErr(name , errs){
+let err = errs.find((index,err) => err)
+// console.log('test' , err , name)
+} 
   },
 }
 </script>

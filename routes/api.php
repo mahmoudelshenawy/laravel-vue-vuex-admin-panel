@@ -13,8 +13,14 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
+    Route::resource('jelly', 'JellyController');
     Route::post('login', 'Auth\LoginController@login');
     Route::post('register', 'Auth\RegisterController@register');
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 });
+Route::resource('products', 'Api\ProductsController');
+Route::get('products/get_sub_categories/{id}', 'Api\ProductsController@getSubCategories');
+// if ($validator->fails()) {
+//     //     return response()->json(['errors' => $validator->errors()], 401);
+//     // }
